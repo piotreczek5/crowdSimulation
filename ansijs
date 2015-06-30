@@ -1,0 +1,30 @@
+[33mcommit c64b209c651f2c635df7343258822f192ccbe018[m
+Merge: 677df8d 50ea989
+Author: piotreczek5 <pusz.piotr@wp.pl>
+Date:   Thu Jun 25 18:03:45 2015 +0200
+
+    Merge branch 'master' of https://github.com/piotreczek5/crowdSimulation
+
+[33mcommit 677df8df947f25596cff0c1ee9f2bbf8071d37d1[m
+Author: piotreczek5 <pusz.piotr@wp.pl>
+Date:   Thu Jun 25 17:56:57 2015 +0200
+
+    First week upload
+
+[33mcommit 50ea989d12009fb73979c2ce1669e9461479aa6c[m
+Author: piotreczek5 <pusz.piotr@wp.pl>
+Date:   Tue Jun 23 16:31:13 2015 +0200
+
+    I have added a new file
+
+[33mcommit 28f7c4d6107529f213d012c326b03b916077aea1[m
+Author: piotreczek5 <pusz.piotr@wp.pl>
+Date:   Tue Jun 23 16:18:28 2015 +0200
+
+    Updated readme file
+
+[33mcommit 11c5a880571bac4f4ae0edb9c255dd3ff3939bb0[m
+Author: piotreczek5 <pusz.piotr@wp.pl>
+Date:   Tue Jun 23 15:52:13 2015 +0200
+
+    Initial commit

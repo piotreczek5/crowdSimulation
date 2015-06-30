@@ -9,7 +9,9 @@ import org.lwjgl.*;
 
 public class System {
 	private ArrayList<Point> listOfPoints;
+	private ArrayList<Stick> listOfSticks;
 	
+
 	private int width;
 	private int height;
 	private double gravity;
@@ -18,6 +20,7 @@ public class System {
 	public System(int width,int height,double gravity,double friction)
 	{
 		this.listOfPoints = new ArrayList<Point>();
+		listOfSticks =  new ArrayList<Stick>();
 		this.width = width;
 		this.height = height;
 		this.gravity = gravity;
@@ -25,9 +28,48 @@ public class System {
 		
 	}
 	
+	public void checkCollision()
+	{
+		for(int i=0;i<this.listOfPoints.size();i++)
+			for(int k=i+1;k<this.listOfPoints.size();k++)
+			{
+				if(		Math.sqrt(Math.pow(this.listOfPoints.get(k).getX() -this.listOfPoints.get(i).getX() , 2) +  //this.listOfPoints.get(i).getX() == this.listOfPoints.get(k).getX() &&
+						Math.pow(this.listOfPoints.get(k).getY() -this.listOfPoints.get(i).getY() , 2) ) < 4
+						)
+				{
+					
+					glBegin(GL_QUADS);
+					glVertex2i(this.listOfPoints.get(i).getX()-5,this.listOfPoints.get(i).getY()-5);
+					glVertex2i(this.listOfPoints.get(i).getX()+5,this.listOfPoints.get(i).getY()-5);
+					glVertex2i(this.listOfPoints.get(i).getX()+5,this.listOfPoints.get(i).getY()+5);
+					glVertex2i(this.listOfPoints.get(i).getX()-5,this.listOfPoints.get(i).getY()+5);
+					glEnd();
+					
+					int iOldX = this.listOfPoints.get(i).getOldX();
+					int iOldY = this.listOfPoints.get(i).getOldY();
+					int kOldX = this.listOfPoints.get(k).getOldX();
+					int kOldY = this.listOfPoints.get(k).getOldY();
+					
+					
+					this.listOfPoints.get(i).setOldX(kOldX);
+					this.listOfPoints.get(i).setOldY(kOldX);
+					
+					this.listOfPoints.get(k).setOldX(iOldX);
+					this.listOfPoints.get(k).setOldY(iOldY);
+					
+					
+				}
+					
+			}
+	}
 	public void addPoint(Point p)
 	{
 		this.listOfPoints.add(p);
+	}
+	
+	public void addStick(Stick s)
+	{
+		this.listOfSticks.add(s);
 	}
 	
 	public void draw()
@@ -35,6 +77,10 @@ public class System {
 		for(Point p:this.listOfPoints)
 		{
 			p.draw();
+		}
+		for(Stick s:this.listOfSticks)
+		{
+			s.draw();
 		}
 	}
 	
