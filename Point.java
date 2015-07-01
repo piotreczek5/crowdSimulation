@@ -44,11 +44,33 @@ public class Point {
 			glVertex2i(this.x-5,this.y+5);
 		glEnd();*/
 		
-		this.DrawCircle(this.x, this.y, 2, 8);
+		int x = this.x - this.oldX;
+		int y = this.y - this.oldY;
+		
+		x *=20;
+		y *=20;
+		
+		
+		glBegin(GL_LINES);
+			glVertex2i(this.x,this.y);
+			glVertex2i(this.x+x,this.y+y);
+		glEnd();
+		
+		
+		
+		int newX;
+		int newY;
+		//x*=-1;
+		//y*=-1;
+		//this.DrawCircle(this.x+x, this.y+y, 4, 8);
+		
+			
+		
+		this.DrawCircle(this.x, this.y, 20, 20);
 	}
 	
 	
-	void DrawCircle(float cx, float cy, float r, int num_segments) 
+	static void DrawCircle(float cx, float cy, float r, int num_segments) 
 	{ 
 		glBegin(GL_LINE_LOOP); 
 		for(int ii = 0; ii < num_segments; ii++) 

@@ -34,7 +34,7 @@ public class System {
 			for(int k=i+1;k<this.listOfPoints.size();k++)
 			{
 				if(		Math.sqrt(Math.pow(this.listOfPoints.get(k).getX() -this.listOfPoints.get(i).getX() , 2) +  //this.listOfPoints.get(i).getX() == this.listOfPoints.get(k).getX() &&
-						Math.pow(this.listOfPoints.get(k).getY() -this.listOfPoints.get(i).getY() , 2) ) < 4
+						Math.pow(this.listOfPoints.get(k).getY() -this.listOfPoints.get(i).getY() , 2) ) < 40
 						)
 				{
 					
@@ -45,17 +45,110 @@ public class System {
 					glVertex2i(this.listOfPoints.get(i).getX()-5,this.listOfPoints.get(i).getY()+5);
 					glEnd();
 					
-					int iOldX = this.listOfPoints.get(i).getOldX();
+					int cur_i_X = this.listOfPoints.get(i).getX();
+					int cur_i_Y = this.listOfPoints.get(i).getY();
+					int old_i_X = this.listOfPoints.get(i).getOldX();
+					int old_i_Y = this.listOfPoints.get(i).getOldY();
+					
+					int cur_k_X = this.listOfPoints.get(k).getX();
+					int cur_k_Y = this.listOfPoints.get(k).getY();
+					int old_k_X = this.listOfPoints.get(k).getOldX();
+					int old_k_Y = this.listOfPoints.get(k).getOldY();
+					
+				
+					
+					
+					
+					int pX = cur_i_X - cur_k_X;
+					int pY = cur_i_Y - cur_k_Y;
+					
+					
+					
+					
+					
+					int speedIx = Math.abs(old_i_X - cur_i_X);
+					int speedIy = Math.abs(old_i_Y - cur_i_Y);
+					
+					int speedKx = Math.abs(old_k_X - cur_k_X);
+					int speedKy = Math.abs(old_k_Y - cur_k_Y);
+					
+					
+					
+					//pX /= divisor;
+					//pY /= divisor;
+					
+					
+					
+					
+					int iNewX = -pX + speedIx;
+					int iNewY = -pY + speedIy;
+					
+					int kNewX = pX + speedKx;
+					int kNewY = pY + speedKy;
+					
+					
+					int p1X = cur_k_X+kNewX;
+					int p1Y = cur_k_Y+kNewY;
+					
+					int p2X = cur_k_X+speedKx*-20;
+					int p2Y = cur_k_Y+speedKy*-20;
+					
+					float finXVec_k = (p2X - p1X);
+					float finYVec_k = (p2Y - p1Y);
+					
+					float divisor = finXVec_k / speedKx;
+					
+					finXVec_k /= divisor;
+					finYVec_k /= divisor;
+					
+					//finXVec_i = finXVec_i/(finXVec_i/speedKx);
+					//finYVec_i = finYVec_i/(finYVec_i/speedKy);
+					
+					this.listOfPoints.get(k).setOldX( cur_k_X + (int)finXVec_k);
+					this.listOfPoints.get(k).setOldY( cur_k_Y + (int)finYVec_k);
+				
+					
+					glColor3f(1.0f,1.0f,1.0f);
+					Point.DrawCircle(p1X, p1Y, 4, 20);
+					Point.DrawCircle(p2X, p2Y, 4, 20);
+					
+					glColor3f(1.0f,0.0f,1.0f);
+					
+					
+				    glBegin(GL_LINES);
+						glVertex2i(p1X,p1Y);
+						glVertex2i(p2X,p2Y);
+					glEnd();
+						glColor3f(1.0f,1.0f,1.0f);
+					
+					glBegin(GL_LINES);
+					glVertex2i(cur_k_X,cur_k_Y);
+					glVertex2i(cur_k_X+kNewX,cur_k_Y+kNewY);
+				glEnd();
+					
+					
+					glColor3f(0.5f,0.5f,0.5f);
+					
+					glBegin(GL_LINES);
+						glVertex2i(cur_i_X,cur_i_Y);
+						glVertex2i(cur_i_X+iNewX,cur_i_Y+iNewY);
+					glEnd();
+					
+					
+					
+					
+				/*	int iOldX = this.listOfPoints.get(i).getOldX();
 					int iOldY = this.listOfPoints.get(i).getOldY();
 					int kOldX = this.listOfPoints.get(k).getOldX();
 					int kOldY = this.listOfPoints.get(k).getOldY();
 					
 					
 					this.listOfPoints.get(i).setOldX(kOldX);
-					this.listOfPoints.get(i).setOldY(kOldX);
+					this.listOfPoints.get(i).setOldY(kOldY);
 					
 					this.listOfPoints.get(k).setOldX(iOldX);
 					this.listOfPoints.get(k).setOldY(iOldY);
+					*/
 					
 					
 				}

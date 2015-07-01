@@ -31,12 +31,12 @@ public class SimpleRenderer {
 		
 		
 		System s = new System(this.width,this.height-2,0,0.999);
-		for(int i=0;i<100;i++)
+		for(int i=0;i<20;i++)
 		{
 			int xX = r.nextInt(this.width);
 			int yY = r.nextInt(this.height);
-			int oldX = xX + r.nextInt(2)+1;
-			int oldY = yY + r.nextInt(2)+1;
+			int oldX = xX + 2;//r.nextInt(4)+1;
+			int oldY = yY + 2;//r.nextInt(4)+1;
 			Point p = new Point(xX,yY,oldX,oldY,r.nextFloat(),r.nextFloat(),r.nextFloat());
 			s.addPoint(p);
 		}
@@ -59,7 +59,6 @@ public class SimpleRenderer {
 			s.draw();
 			
 			s.updatePosition();
-			for(int i=0;i<2;i++)
 				s.checkCollision();
 			Display.update();
 			Display.sync(60);
