@@ -30,13 +30,13 @@ public class SimpleRenderer {
 		
 		
 		
-		System s = new System(this.width,this.height-2,0,0.999);
-		for(int i=0;i<20;i++)
+		System s = new System(this.width,this.height-2,0.0f,1.0f);
+		for(int i=0;i<2;i++)
 		{
 			int xX = r.nextInt(this.width);
 			int yY = r.nextInt(this.height);
-			int oldX = xX + 2;//r.nextInt(4)+1;
-			int oldY = yY + 2;//r.nextInt(4)+1;
+			int oldX = xX + r.nextInt(4)+1;
+			int oldY = yY + r.nextInt(4)+1;
 			Point p = new Point(xX,yY,oldX,oldY,r.nextFloat(),r.nextFloat(),r.nextFloat());
 			s.addPoint(p);
 		}
@@ -52,14 +52,29 @@ public class SimpleRenderer {
 		glOrtho(0,x,y,0,1,-1);
 		glMatrixMode(GL_MODELVIEW);
 		
+		final double DESIRED_FPS = 70;
+		final double MS_PER_SEC= 1000;
+		final double DESIRED_FRAMETIME = MS_PER_SEC / DESIRED_FPS;
+		
+		double prevTime = java.lang.System.currentTimeMillis();
 		
 		while(!Display.isCloseRequested())	// rendering
 		{
-			glClear(GL_COLOR_BUFFER_BIT);
-			s.draw();
+			double newTime = java.lang.System.currentTimeMillis();
+			double frameTime = newTime - prevTime;
 			
-			s.updatePosition();
-				s.checkCollision();
+			prevTime = newTime;
+			
+			double deltaTime = frameTime / DESIRED_FRAMETIME;
+			
+			java.lang.System.out.println("DESIRED FRAMERATE:" +DESIRED_FRAMETIME+"newTime: "+newTime+"prevTime: "+prevTime+" frameTime: "+frameTime+" deltaTime: "+deltaTime);
+			
+			glClear(GL_COLOR_BUFFER_BIT);
+			
+			
+			s.updatePosition((float)deltaTime);
+			s.draw();//
+			s.checkCollision();
 			Display.update();
 			Display.sync(60);
 		}

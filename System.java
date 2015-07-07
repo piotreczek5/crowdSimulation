@@ -6,6 +6,8 @@ import static org.lwjgl.opengl.GL11.*;
 
 import org.lwjgl.opengl.*;
 import org.lwjgl.*;
+import java.util.Timer.*;
+import java.lang.System.*;
 
 public class System {
 	private ArrayList<Point> listOfPoints;
@@ -14,10 +16,10 @@ public class System {
 
 	private int width;
 	private int height;
-	private double gravity;
-	private double friction;
+	private float gravity;
+	private float friction;
 	
-	public System(int width,int height,double gravity,double friction)
+	public System(int width,int height,float gravity,float friction)
 	{
 		this.listOfPoints = new ArrayList<Point>();
 		listOfSticks =  new ArrayList<Stick>();
@@ -34,107 +36,120 @@ public class System {
 			for(int k=i+1;k<this.listOfPoints.size();k++)
 			{
 				if(		Math.sqrt(Math.pow(this.listOfPoints.get(k).getX() -this.listOfPoints.get(i).getX() , 2) +  //this.listOfPoints.get(i).getX() == this.listOfPoints.get(k).getX() &&
-						Math.pow(this.listOfPoints.get(k).getY() -this.listOfPoints.get(i).getY() , 2) ) < 40
+						Math.pow(this.listOfPoints.get(k).getY() -this.listOfPoints.get(i).getY() , 2) ) < 400
 						)
 				{
 					
 					glBegin(GL_QUADS);
-					glVertex2i(this.listOfPoints.get(i).getX()-5,this.listOfPoints.get(i).getY()-5);
-					glVertex2i(this.listOfPoints.get(i).getX()+5,this.listOfPoints.get(i).getY()-5);
-					glVertex2i(this.listOfPoints.get(i).getX()+5,this.listOfPoints.get(i).getY()+5);
-					glVertex2i(this.listOfPoints.get(i).getX()-5,this.listOfPoints.get(i).getY()+5);
+					glVertex2i((int)this.listOfPoints.get(i).getX()-5,(int)this.listOfPoints.get(i).getY()-5);
+					glVertex2i((int)this.listOfPoints.get(i).getX()+5,(int)this.listOfPoints.get(i).getY()-5);
+					glVertex2i((int)this.listOfPoints.get(i).getX()+5,(int)this.listOfPoints.get(i).getY()+5);
+					glVertex2i((int)this.listOfPoints.get(i).getX()-5,(int)this.listOfPoints.get(i).getY()+5);
 					glEnd();
 					
-					int cur_i_X = this.listOfPoints.get(i).getX();
-					int cur_i_Y = this.listOfPoints.get(i).getY();
-					int old_i_X = this.listOfPoints.get(i).getOldX();
-					int old_i_Y = this.listOfPoints.get(i).getOldY();
+					double iX = this.listOfPoints.get(i).getX();
+					double iY = this.listOfPoints.get(i).getY();
+					double oldiX = this.listOfPoints.get(i).getOldX();
+					double oldiY = this.listOfPoints.get(i).getOldY();
 					
-					int cur_k_X = this.listOfPoints.get(k).getX();
-					int cur_k_Y = this.listOfPoints.get(k).getY();
-					int old_k_X = this.listOfPoints.get(k).getOldX();
-					int old_k_Y = this.listOfPoints.get(k).getOldY();
-					
-				
+					double kX = this.listOfPoints.get(k).getX();
+					double kY = this.listOfPoints.get(k).getY();
+					double oldkX = this.listOfPoints.get(k).getOldX();
+					double oldkY = this.listOfPoints.get(k).getOldY();
 					
 					
 					
-					int pX = cur_i_X - cur_k_X;
-					int pY = cur_i_Y - cur_k_Y;
+					// move vectors
+					double mov1x = iX - oldiX; 
+					double mov1y = iY - oldiY;
+					double mov2x = kX - oldkX;
+					double mov2y = kY - oldkY; 
+					//-------------
+					
+					mov1x *= 10;
+					mov1y *= 10;
+					mov2x *= 10;
+					mov2y *= 10;
+					
+						glBegin(GL_LINES);
+					glVertex2i((int)iX,(int)iY);
+					glVertex2i((int)(mov1x+iX),(int)(mov1y+iY));  //move vector I
+						glEnd();
+					
+						glBegin(GL_LINES);
+						glVertex2i((int)kX,(int)kY);
+						glVertex2i((int)mov2x+(int)kX,(int)mov2y+(int)kY);  //move vector K
+							glEnd();
+					// connecting vectors
+					double con1x = kX -iX  ;
+					double con1y = kY -iY  ;
+					
+					double con2x = iX- kX  ;
+					double con2y =  iY -kY  ;
 					
 					
 					
+					glBegin(GL_LINES);
+					glVertex2i((int)iX,(int)iY);
+					glVertex2i((int)con1x + (int)iX,(int)con1y+(int)iY);
+						glEnd();
+					
+					//-------------
+					//Divisor
+					
+					double div1 = con1x / mov1x;
+					double div2 = con2x / mov2x;
+
+					
+					//normalizing vectors
+					
+					con1x /= div1;
+					con1y /= div1;
+					
+					con2x /= div2;
+					con2y /= div2;
+					
+					//--------------
+					
+					glColor3f(1.0f,1.0f,1.0f);
+					
+					glBegin(GL_LINES);
+					glVertex2i((int)iX,(int)iY);
+					glVertex2i((int)con1x + (int)iX,(int)con1y+(int)iY);
+						glEnd();
+						
+					glBegin(GL_LINES);
+						glVertex2i((int)kX,(int)kY);
+						glVertex2i((int)con2x + (int)kX,(int)con2y+(int)kY);
+							glEnd();
+					//getting points P1 and P2 
+					
+					double P1x = con1x + iX;
+					double P1y = con1y + iY;
+					double P2x = con2x + kX;
+					double P2y = con2y + kY;
 					
 					
-					int speedIx = Math.abs(old_i_X - cur_i_X);
-					int speedIy = Math.abs(old_i_Y - cur_i_Y);
 					
-					int speedKx = Math.abs(old_k_X - cur_k_X);
-					int speedKy = Math.abs(old_k_Y - cur_k_Y);
+					//----------------
+					// final vectors to move
 					
+					//fin1X
 					
-					
-					//pX /= divisor;
-					//pY /= divisor;
+					// ---------------
+							
 					
 					
-					
-					
-					int iNewX = -pX + speedIx;
-					int iNewY = -pY + speedIy;
-					
-					int kNewX = pX + speedKx;
-					int kNewY = pY + speedKy;
-					
-					
-					int p1X = cur_k_X+kNewX;
-					int p1Y = cur_k_Y+kNewY;
-					
-					int p2X = cur_k_X+speedKx*-20;
-					int p2Y = cur_k_Y+speedKy*-20;
-					
-					float finXVec_k = (p2X - p1X);
-					float finYVec_k = (p2Y - p1Y);
-					
-					float divisor = finXVec_k / speedKx;
-					
-					finXVec_k /= divisor;
-					finYVec_k /= divisor;
-					
-					//finXVec_i = finXVec_i/(finXVec_i/speedKx);
-					//finYVec_i = finYVec_i/(finYVec_i/speedKy);
-					
-					this.listOfPoints.get(k).setOldX( cur_k_X + (int)finXVec_k);
-					this.listOfPoints.get(k).setOldY( cur_k_Y + (int)finYVec_k);
+					//this.listOfPoints.get(k).setOldX( cur_k_X + (int)finXVec_k);
+					//this.listOfPoints.get(k).setOldY( cur_k_Y + (int)finYVec_k);
 				
 					
 					glColor3f(1.0f,1.0f,1.0f);
-					Point.DrawCircle(p1X, p1Y, 4, 20);
-					Point.DrawCircle(p2X, p2Y, 4, 20);
-					
-					glColor3f(1.0f,0.0f,1.0f);
+					Point.DrawCircle(P1x, P1y, 10, 10);
+					Point.DrawCircle(P2x, P2y, 10, 10);
 					
 					
-				    glBegin(GL_LINES);
-						glVertex2i(p1X,p1Y);
-						glVertex2i(p2X,p2Y);
-					glEnd();
-						glColor3f(1.0f,1.0f,1.0f);
-					
-					glBegin(GL_LINES);
-					glVertex2i(cur_k_X,cur_k_Y);
-					glVertex2i(cur_k_X+kNewX,cur_k_Y+kNewY);
-				glEnd();
-					
-					
-					glColor3f(0.5f,0.5f,0.5f);
-					
-					glBegin(GL_LINES);
-						glVertex2i(cur_i_X,cur_i_Y);
-						glVertex2i(cur_i_X+iNewX,cur_i_Y+iNewY);
-					glEnd();
-					
-					
+				
 					
 					
 				/*	int iOldX = this.listOfPoints.get(i).getOldX();
@@ -177,20 +192,27 @@ public class System {
 		}
 	}
 	
-	public void updatePosition()
+	public void updatePosition(double deltaTime)
 	{
+		
+		java.lang.System.out.println("Delta: "+deltaTime);
 		
 		for(Point p:this.listOfPoints)
 		{
-			int vx = (int)((p.getX() - p.getOldX()));
-			int vy = (int)((p.getY() - p.getOldY()));
+			java.lang.System.out.println("p.getX: "+p.getX());
+			java.lang.System.out.println("p.getOldX: "+p.getOldX());
+			java.lang.System.out.println("Delta: "+deltaTime);
+			java.lang.System.out.println("  "+(p.getX() - p.getOldX())+" * "+deltaTime+" = "+ (p.getX() - p.getOldX()) * deltaTime);
+			double vx = (this.friction*(p.getX() - p.getOldX()));
+			double vy = (this.friction*(p.getY() - p.getOldY()));
+			
 			
 			p.setOldX(p.getX());
 			p.setOldY(p.getY());
 			
-			p.setX(p.getX()+vx);
-			p.setY(p.getY()+vy);
-			p.setY(p.getY()+(int)this.gravity);
+			p.setX((p.getX()+vx));
+			p.setY((p.getY()+(vy+gravity)));
+			
 			
 			if(p.getX() > this.width)
 			{

@@ -8,15 +8,15 @@ import org.lwjgl.*;
 
 
 public class Point {
-	private int x;
-	private int y;
-	private int oldX;
-	private int oldY;
+	private double x;
+	private double y;
+	private double oldX;
+	private double oldY;
 	private float red;
 	private float green;
 	private float blue;
 	
-	Point(int x,int y,int oldx,int oldy,float red,float blue, float green)
+	Point(double x,double y,double oldx,double oldy,float red,float blue, float green)
 	{
 		this.x = x;
 		this.y = y;
@@ -44,33 +44,29 @@ public class Point {
 			glVertex2i(this.x-5,this.y+5);
 		glEnd();*/
 		
-		int x = this.x - this.oldX;
-		int y = this.y - this.oldY;
+		double x = this.x - this.oldX;
+		double y = this.y - this.oldY;
 		
 		x *=20;
 		y *=20;
 		
 		
-		glBegin(GL_LINES);
-			glVertex2i(this.x,this.y);
-			glVertex2i(this.x+x,this.y+y);
-		glEnd();
+		//glBegin(GL_LINES);
+		//	glVertex2i((int)this.x,(int)this.y);
+		//	glVertex2i((int)(this.x+x),(int)(this.y+y));
+		//glEnd();
 		
 		
 		
-		int newX;
-		int newY;
-		//x*=-1;
-		//y*=-1;
-		//this.DrawCircle(this.x+x, this.y+y, 4, 8);
+		
 		
 			
 		
-		this.DrawCircle(this.x, this.y, 20, 20);
+		this.DrawCircle(this.x, this.y, 200, 20);
 	}
 	
 	
-	static void DrawCircle(float cx, float cy, float r, int num_segments) 
+	static void DrawCircle(double cx, double cy, float r, int num_segments) 
 	{ 
 		glBegin(GL_LINE_LOOP); 
 		for(int ii = 0; ii < num_segments; ii++) 
@@ -80,41 +76,41 @@ public class Point {
 			float x = r *(float)Math.cos(theta);//calculate the x component 
 			float y = r *(float) Math.sin(theta);//calculate the y component 
 
-			glVertex2f(x + cx, y + cy);//output vertex 
+			glVertex2f((float)x + (float)cx, (float)y + (float)cy);//output vertex 
 
 		} 
 		glEnd(); 
 	}
 
-	public int getX() {
+	public double getX() {
 		return x;
 	}
 
-	public void setX(int x) {
+	public void setX(double x) {
 		this.x = x;
 	}
 
-	public int getY() {
+	public double getY() {
 		return y;
 	}
 
-	public void setY(int y) {
+	public void setY(double y) {
 		this.y = y;
 	}
 
-	public int getOldX() {
+	public double getOldX() {
 		return oldX;
 	}
 
-	public void setOldX(int oldX) {
-		this.oldX = oldX;
+	public void setOldX(double f) {
+		this.oldX = f;
 	}
 
-	public int getOldY() {
+	public double getOldY() {
 		return oldY;
 	}
 
-	public void setOldY(int oldY) {
+	public void setOldY(double oldY) {
 		this.oldY = oldY;
 	}
 	
