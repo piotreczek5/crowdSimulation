@@ -13,6 +13,51 @@ public class Point {
 	private double oldX;
 	private double oldY;
 	private float red;
+	
+	public float getRed() {
+		return red;
+	}
+
+
+
+
+
+	public void setRed(float red) {
+		this.red = red;
+	}
+
+
+
+
+
+	public float getGreen() {
+		return green;
+	}
+
+
+
+
+
+	public void setGreen(float green) {
+		this.green = green;
+	}
+
+
+
+
+
+	public float getBlue() {
+		return blue;
+	}
+
+
+
+
+
+	public void setBlue(float blue) {
+		this.blue = blue;
+	}
+
 	private float green;
 	private float blue;
 	
@@ -62,7 +107,7 @@ public class Point {
 		
 			
 		
-		this.DrawCircle(this.x, this.y, 200, 20);
+		this.DrawCircle(this.x, this.y, 50, 20);
 	}
 	
 	

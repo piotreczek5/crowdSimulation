@@ -31,16 +31,35 @@ public class SimpleRenderer {
 		
 		
 		System s = new System(this.width,this.height-2,0.0f,1.0f);
-		for(int i=0;i<2;i++)
+		for(int i=0;i<5;i++)
 		{
+			
+			
 			int xX = r.nextInt(this.width);
 			int yY = r.nextInt(this.height);
 			int oldX = xX + r.nextInt(4)+1;
 			int oldY = yY + r.nextInt(4)+1;
+			
+			while(s.isOverlapping(xX, yY, 50))
+			{
+				xX = r.nextInt(this.width);
+				yY = r.nextInt(this.height);
+			}
 			Point p = new Point(xX,yY,oldX,oldY,r.nextFloat(),r.nextFloat(),r.nextFloat());
+			
+			//Point p = new Point(xX,yY,oldX,oldY,1.0f,1.0f,1.0f);
 			s.addPoint(p);
 		}
+		//Point p = new Point(154,100,150,106,1.0f,1.0f,1.0f);
+		//Point p2 = new Point(150,400,156s,406,1.0f,0.0f,1.0f);
 		
+		//Point p3 = new Point(300,300,305,300,1.0f,1.0f,1.0f);
+		//Point p4 = new Point(600,300,605,300,1.0f,0.0f,1.0f);
+		//s.addPoint(p);
+		//s.addPoint(p2);
+		
+		//s.addPoint(p3);
+		//s.addPoint(p4);
 		//Point p1 = new Point(100,100,101,101);
 		//Point p2 = new Point(200,200,201,201);
 		//Stick stick = new Stick(p1,p2);
@@ -67,7 +86,7 @@ public class SimpleRenderer {
 			
 			double deltaTime = frameTime / DESIRED_FRAMETIME;
 			
-			java.lang.System.out.println("DESIRED FRAMERATE:" +DESIRED_FRAMETIME+"newTime: "+newTime+"prevTime: "+prevTime+" frameTime: "+frameTime+" deltaTime: "+deltaTime);
+			//java.lang.System.out.println("DESIRED FRAMERATE:" +DESIRED_FRAMETIME+"newTime: "+newTime+"prevTime: "+prevTime+" frameTime: "+frameTime+" deltaTime: "+deltaTime);
 			
 			glClear(GL_COLOR_BUFFER_BIT);
 			
@@ -81,6 +100,8 @@ public class SimpleRenderer {
 		
 		Display.destroy();
 	}
+	
+	
 
 
 }
