@@ -107,7 +107,7 @@ public class Point {
 		
 			
 		
-		this.DrawCircle(this.x, this.y, 50, 20);
+		this.DrawCircle(this.x, this.y, 100, 40);
 	}
 	
 	

@@ -37,7 +37,7 @@ public class System {
 						+ // this.listOfPoints.get(i).getX() ==
 							// this.listOfPoints.get(k).getX() &&
 						Math.pow(this.listOfPoints.get(k).getY()
-								- this.listOfPoints.get(i).getY(), 2)) < 100) {
+								- this.listOfPoints.get(i).getY(), 2)) < 200) {
 
 					double iX = this.listOfPoints.get(i).getX();
 					double iY = this.listOfPoints.get(i).getY();
@@ -48,7 +48,13 @@ public class System {
 					double kY = this.listOfPoints.get(k).getY();
 					double oldkX = this.listOfPoints.get(k).getOldX();
 					double oldkY = this.listOfPoints.get(k).getOldY();
-
+					
+					
+					
+					
+					
+					
+					
 					// move vectors
 					double mov1x = iX - oldiX;
 					double mov1y = iY - oldiY;
@@ -59,7 +65,7 @@ public class System {
 					/*
 					 * mov1x *= 20; mov1y *= 20; mov2x *= 20; mov2y *= 20;
 					 */
-
+					
 					glBegin(GL_LINES);
 					glVertex2i((int) iX, (int) iY);
 					glVertex2i((int) (mov1x + iX), (int) (mov1y + iY)); // move
@@ -73,6 +79,8 @@ public class System {
 																				// vector
 																				// K
 					glEnd();
+					
+					
 					// connecting vectors
 					double con1x = kX - iX;
 					double con1y = kY - iY;
@@ -84,6 +92,8 @@ public class System {
 					glVertex2i((int) iX, (int) iY);
 					glVertex2i((int) con1x + (int) iX, (int) con1y + (int) iY);
 					glEnd();
+
+
 
 					// -------------
 					
@@ -98,7 +108,7 @@ public class System {
 
 					// --------------
 
-					glColor3f(1.0f, 1.0f, 1.0f);
+						glColor3f(1.0f, 1.0f, 1.0f);
 
 					glBegin(GL_LINES);
 					glVertex2i((int) iX, (int) iY);
@@ -109,6 +119,7 @@ public class System {
 					glVertex2i((int) kX, (int) kY);
 					glVertex2i((int) con2x + (int) kX, (int) con2y + (int) kY);
 					glEnd();
+					
 					// getting points P1 and P2
 
 					double P1x = con1x + iX;
@@ -136,7 +147,7 @@ public class System {
 					glVertex2i((int) P2x, (int) P2y);
 					glVertex2i((int) P2x + (int) fin2X, (int) P2y + (int) fin2Y);
 					glEnd();
-
+				 
 					// ---------------
 
 					// normalizing final points
@@ -212,12 +223,12 @@ public class System {
 					} else if (mov1y > 0 && mov2y > 0 || mov1y < 0 && mov2y < 0) {
 						if (mov1y > 0) {
 							java.lang.System.out.println("II Y");
-							point1Y = iY + (fin1Y);
-							point2Y = kY - (fin2Y);
-						} else {
-							java.lang.System.out.println("III Y");
 							point1Y = iY - (fin1Y);
 							point2Y = kY + (fin2Y);
+						} else {
+							java.lang.System.out.println("III Y");
+							point1Y = iY + (fin1Y);
+							point2Y = kY - (fin2Y);
 						}
 
 					} else {
@@ -293,24 +304,19 @@ public class System {
 	public boolean isOverlapping(int x, int y, int r) {
 
 		for (Point p : this.listOfPoints) {
-			if (Math.sqrt(Math.pow(p.getX() - x, 2) + Math.pow(p.getY() - y, 2)) < r+5)
+			if (Math.sqrt(Math.pow(p.getX() - x, 2) + Math.pow(p.getY() - y, 2)) < 2*r+5)
 				return true;
 		}
 
 		return false;
 	}
 
-	public void updatePosition(double deltaTime) {
+	public void updatePosition() {
 
 		// java.lang.System.out.println("Delta: "+deltaTime);
 
 		for (Point p : this.listOfPoints) {
-			// java.lang.System.out.println("p.getX: "+p.getX());
-			// java.lang.System.out.println("p.getOldX: "+p.getOldX());
-			// java.lang.System.out.println("Delta: "+deltaTime);
-			// java.lang.System.out.println("  "+(p.getX() -
-			// p.getOldX())+" * "+deltaTime+" = "+ (p.getX() - p.getOldX()) *
-			// deltaTime);
+			
 			double vx = (this.friction * (p.getX() - p.getOldX()));
 			double vy = (this.friction * (p.getY() - p.getOldY()));
 
