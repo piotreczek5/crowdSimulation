@@ -41,7 +41,9 @@ public class System {
 						+ this.listOfPoints.get(j).getRadius();
 
 				if (length < target) {
-					double factor = 0.5 * (length - target) / length;
+
+					double factor = 0.1 * (length - target) / length;
+
 					this.listOfPoints.get(i).setX(
 							this.listOfPoints.get(i).getX() - x * factor);
 					this.listOfPoints.get(i).setY(
@@ -85,39 +87,56 @@ public class System {
 	public void addPoint(Point p) {
 		this.listOfPoints.add(p);
 	}
-	
-	public void applyGravity()
-	{
+
+	public void applyGravity() {
 		for (Point p : this.listOfPoints) {
-			p.setYa(p.getYa()+this.gravity);
+			p.setYa(p.getYa() + this.gravity);
 		}
-		
-		
 	}
+
+	public Point searchPoint(int x, int y) {
+		
+		for (Point p : this.listOfPoints) {
+			if (x < p.getX() + p.getRadius() && x > p.getX() - p.getRadius()
+					&& y < p.getY() + p.getRadius()
+					&& y > p.getY() - p.getRadius())
+			{
+				java.lang.System.out.println("Found");
+				return p;
+			}
+				
+		}
+		java.lang.System.out.println("Not Found");
+		return null;
+	}
+
+	public void applyDirerction(Point p) {
+		if (p != null)
+			p.setXa(p.getXa()+ 800);
+	}
+
 	public void draw() {
 		for (Point p : this.listOfPoints) {
 			p.draw();
 		}
 	}
-	
-	public void accelerate(double delta)
-	{
+
+	public void accelerate(double delta) {
 		for (Point p : this.listOfPoints) {
 			p.accelerate(delta);
 		}
 	}
-	
+
 	public void updatePosition(double delta) {
 		for (Point p : this.listOfPoints) {
 			p.updatePosition(delta);
 		}
 	}
-	public void step(int steps)
-	{
-		
-		double delta = 1/(double)steps;
-		for(int i=0;i<steps;i++)
-		{
+
+	public void step(int steps) {
+
+		double delta = 1 / (double) steps;
+		for (int i = 0; i < steps; i++) {
 			this.applyGravity();
 			this.accelerate(delta);
 			this.checkCollision();
@@ -130,15 +149,13 @@ public class System {
 	public boolean isOverlapping(int x, int y) {
 
 		for (Point p : this.listOfPoints) {
-			
-			
-			if (Math.sqrt(Math.pow(p.getX() - x, 2) + Math.pow(p.getY() - y, 2)) < p.getRadius()*2)
+
+			if (Math.sqrt(Math.pow(p.getX() - x, 2) + Math.pow(p.getY() - y, 2)) < p
+					.getRadius() * 2)
 				return true;
 		}
 
 		return false;
 	}
-	
-	
-	
+
 }

@@ -45,6 +45,8 @@ public class Point {
 	{
 		double x = this.x*2 - this.oldX;
 		double y = this.y*2 - this.oldY;
+		
+		
 		//java.lang.System.out.println("x: " + x + "y: "+ y);
 		this.oldX = this.x;
 		this.oldY = this.y;
@@ -64,7 +66,7 @@ public class Point {
 	
 	static void drawFilledCircle(double x, double y, double radius){
 		int i;
-		int triangleAmount = 20; //# of triangles used to draw circle
+		int triangleAmount = 30; //# of triangles used to draw circle
 		
 		//GLfloat radius = 0.8f; //radius
 		float twicePi = 2.0f * (float)Math.PI;
