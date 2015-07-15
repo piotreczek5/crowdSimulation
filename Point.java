@@ -36,7 +36,9 @@ public class Point {
 	public void draw() {
 
 		glColor3f(this.red, this.green, this.blue);
-		this.DrawCircle(this.x, this.y, this.radius, 20);
+		//this.DrawCircle(this.x, this.y, this.radius, 20);
+		this.drawFilledCircle(this.x, this.y, this.radius);
+		
 	}
 
 	public void updatePosition(double delta)
@@ -60,7 +62,23 @@ public class Point {
 		this.ya = 0;
 	}
 	
-	
+	static void drawFilledCircle(double x, double y, double radius){
+		int i;
+		int triangleAmount = 20; //# of triangles used to draw circle
+		
+		//GLfloat radius = 0.8f; //radius
+		float twicePi = 2.0f * (float)Math.PI;
+		
+		glBegin(GL_TRIANGLE_FAN);
+			glVertex2f((float)x, (float)y); // center of circle
+			for(i = 0; i <= triangleAmount;i++) { 
+				glVertex2f(
+						(float)x + ((float)radius * (float)Math.cos(i *  twicePi / triangleAmount)), 
+						(float)y + ((float)radius * (float)Math.sin(i * twicePi / triangleAmount))
+				);
+			}
+		glEnd();
+	}
 
 	static void DrawCircle(double cx, double cy, float r, int num_segments) {
 		glBegin(GL_LINE_LOOP);

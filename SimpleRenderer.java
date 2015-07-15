@@ -4,6 +4,7 @@ import org.lwjgl.LWJGLException;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.*;
 import org.lwjgl.util.Color;
 import org.lwjgl.*;
@@ -13,6 +14,14 @@ public class SimpleRenderer {
 	private int width;
 	private int height;
 
+	public void addPoint(System s,int x,int y, int oX,int oY,float r,float red,float green,float blue)
+	{
+		Point p = new Point(x, y, oX, oY, r, red,
+				green, blue);
+		s.addPoint(p);
+	}
+	
+	
 	public SimpleRenderer(int x, int y) {
 		this.width = x;
 		this.height = y;
@@ -26,13 +35,13 @@ public class SimpleRenderer {
 
 		Random r = new Random();
 
-		System s = new System(this.width, this.height - 2, 0.5f, 1.0f);
-		for (int i = 0; i < 100; i++) {
+		System s = new System(this.width, this.height - 2, 0.0f, 1.0f);
+		for (int i = 0; i < 20; i++) {
 
 			int xX = r.nextInt(this.width);
 			int yY = r.nextInt(this.height);
-			int oldX = xX + r.nextInt(2) + 1;
-			int oldY = yY + r.nextInt(2) + 1;
+			int oldX = xX ;//+ r.nextInt(1) ;
+			int oldY = yY ;//+ r.nextInt(2) + 1;
 
 			/*while (!s.isOverlapping(xX, yY)) {
 				xX = r.nextInt(this.width);
@@ -40,10 +49,9 @@ public class SimpleRenderer {
 				oldX = xX + r.nextInt(2) + 1;
 				oldY = yY + r.nextInt(2) + 1;
 			}*/
-			Point p = new Point(xX, yY, oldX, oldY, 40.0f, r.nextFloat(),
-					r.nextFloat(), r.nextFloat());
-
-			s.addPoint(p);
+			
+			addPoint(s,xX,yY,oldX,oldY,35.0f, r.nextFloat(),r.nextFloat(), r.nextFloat());
+			
 		}
 
 		glMatrixMode(GL_PROJECTION);
@@ -53,10 +61,20 @@ public class SimpleRenderer {
 
 		while (!Display.isCloseRequested()) // rendering
 		{
-
+			if (Mouse.isButtonDown(0)) {
+				    
+				
+				    int xX = Mouse.getX();
+					int yY = this.height - Mouse.getY();
+					
+					int oldX = xX;// + r.nextInt(4) - 2;
+					int oldY = yY;
+					addPoint(s,xX,yY,oldX,oldY,35.0f, r.nextFloat(),r.nextFloat(), r.nextFloat());
+				}
+				
 			glClear(GL_COLOR_BUFFER_BIT);
-
-			s.step(10);
+			java.lang.System.out.println("Number of objects: " + s.getListOfPoints().size());
+			s.step(2);
 			Display.update();
 			Display.sync(60);
 		}

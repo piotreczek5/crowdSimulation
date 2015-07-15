@@ -41,7 +41,7 @@ public class System {
 						+ this.listOfPoints.get(j).getRadius();
 
 				if (length < target) {
-					double factor = 0.1 * (length - target) / length;
+					double factor = 0.5 * (length - target) / length;
 					this.listOfPoints.get(i).setX(
 							this.listOfPoints.get(i).getX() - x * factor);
 					this.listOfPoints.get(i).setY(
@@ -57,6 +57,14 @@ public class System {
 			}
 
 		}
+	}
+
+	public ArrayList<Point> getListOfPoints() {
+		return listOfPoints;
+	}
+
+	public void setListOfPoints(ArrayList<Point> listOfPoints) {
+		this.listOfPoints = listOfPoints;
 	}
 
 	public void checkCollisionOfBoundaries() {
