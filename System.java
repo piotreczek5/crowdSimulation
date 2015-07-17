@@ -42,7 +42,7 @@ public class System {
 
 				if (length < target) {
 
-					double factor = 0.1 * (length - target) / length;
+					double factor = 0.4 * (length - target) / length;
 
 					this.listOfPoints.get(i).setX(
 							this.listOfPoints.get(i).getX() - x * factor);
