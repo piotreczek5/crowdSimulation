@@ -35,7 +35,7 @@ public class SimpleRenderer {
 		Random r = new Random();
 
 		System s = new System(this.width, this.height - 2, 0.0f, 1.0f);
-		for (int i = 0; i < 700; i++) {
+		for (int i = 0; i <600; i++) {
 
 			int xX = r.nextInt(this.width);
 			int yY = r.nextInt(this.height);
@@ -47,9 +47,11 @@ public class SimpleRenderer {
 			 * = r.nextInt(this.height); oldX = xX + r.nextInt(2) + 1; oldY = yY
 			 * + r.nextInt(2) + 1; }
 			 */
-
-			addPoint(s, xX, yY, oldX, oldY, r.nextFloat() * 20 + 10,
-					r.nextFloat(), r.nextFloat(), r.nextFloat());
+			
+			
+			double size = r.nextGaussian()*1.2 +24;
+			addPoint(s, xX, yY, oldX, oldY, (float)size,//r.nextFloat() * 20 + 10,
+					1,1,1);//r.nextFloat(), r.nextFloat(), r.nextFloat());
 
 		}
 
@@ -70,7 +72,8 @@ public class SimpleRenderer {
 
 				int oldX = xX;// + r.nextInt(4) - 2;
 				int oldY = yY;
-				addPoint(s, xX, yY, oldX, oldY, r.nextFloat() * 20 + 10,
+				double size = r.nextGaussian()*1.2 +14;
+				addPoint(s, xX, yY, oldX, oldY,(float)size,// r.nextFloat() * 20 + 10,
 						r.nextFloat(), r.nextFloat(), r.nextFloat());
 			}
 
@@ -86,7 +89,7 @@ public class SimpleRenderer {
 
 			// java.lang.System.out.println("Number of objects: " +
 			// s.getListOfPoints().size());
-			s.step(10);
+			s.step(6);
 
 			int xX = Mouse.getX();
 			int yY = this.height - Mouse.getY();
@@ -99,14 +102,15 @@ public class SimpleRenderer {
 				}
 			}
 
-			GL11.glBegin(GL11.GL_LINES);
+			/*GL11.glBegin(GL11.GL_LINES);
 			GL11.glVertex2f(xX, yY - 150);
 			GL11.glVertex2f(xX, yY + 150);
 
 			GL11.glEnd();
+			*/
 
 			Display.update();
-			Display.sync(60);
+			Display.sync(90);
 		}
 
 		Display.destroy();

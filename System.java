@@ -16,13 +16,14 @@ public class System {
 	private int height;
 	private float gravity;
 	private float friction;
-
+	
 	public System(int width, int height, float gravity, float friction) {
 		this.listOfPoints = new ArrayList<Point>();
 		this.width = width;
 		this.height = height;
 		this.gravity = gravity;
 		this.friction = friction;
+		
 	}
 
 	public void checkCollision() {
@@ -42,7 +43,23 @@ public class System {
 
 				if (length < target) {
 
-					double factor = 0.4 * (length - target) / length;
+					double Px = this.listOfPoints.get(i).getX()
+							+ this.listOfPoints.get(j).getX();
+					double Py = this.listOfPoints.get(i).getY()
+							+ this.listOfPoints.get(j).getY();
+					
+					Px /= 2;
+					Py /= 2;
+					
+					double forceFactor = target - length;
+					float color = 1.0f-(1.0f/(float)forceFactor);
+					glColor3f(color,0 ,0);
+					
+					
+					Point.drawFilledCircle(Px, Py, 2*forceFactor);
+					
+					//java.lang.System.out.println(maxHit);
+					double factor = 0.1 * (length - target) / length;
 
 					this.listOfPoints.get(i).setX(
 							this.listOfPoints.get(i).getX() - x * factor);
@@ -101,18 +118,18 @@ public class System {
 					&& y < p.getY() + p.getRadius()
 					&& y > p.getY() - p.getRadius())
 			{
-				java.lang.System.out.println("Found");
+				
 				return p;
 			}
 				
 		}
-		java.lang.System.out.println("Not Found");
+		
 		return null;
 	}
 
 	public void applyDirerction(Point p) {
 		if (p != null)
-			p.setXa(p.getXa()+ 800);
+			p.setXa(p.getXa()+ 100);
 	}
 
 	public void draw() {
@@ -134,8 +151,9 @@ public class System {
 	}
 
 	public void step(int steps) {
-
+		
 		double delta = 1 / (double) steps;
+		
 		for (int i = 0; i < steps; i++) {
 			this.applyGravity();
 			this.accelerate(delta);
@@ -143,7 +161,10 @@ public class System {
 			this.checkCollisionOfBoundaries();
 			this.updatePosition(delta);
 		}
+		
 		this.draw();
+		
+		this.checkCollision();
 	}
 
 	public boolean isOverlapping(int x, int y) {
