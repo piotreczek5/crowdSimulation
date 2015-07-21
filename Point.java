@@ -18,9 +18,10 @@ public class Point {
 	private float red;
 	private float green;
 	private float blue;
+	private double force;
 
 	Point(double x, double y,double oldX, double oldY,float radius, float red, float blue,
-			float green) {
+			float green,double force ) {
 		this.x = x;
 		this.y = y;
 		this.oldX = oldX;
@@ -31,6 +32,7 @@ public class Point {
 		this.red = red;
 		this.blue = blue;
 		this.green = green;
+		this.force = force;
 	}
 
 	public void draw() {
@@ -54,6 +56,14 @@ public class Point {
 		this.y = y;
 	}
 	
+	public double getForce() {
+		return force;
+	}
+
+	public void setForce(double force) {
+		this.force = force;
+	}
+
 	public void accelerate(double delta)
 	{
 		//java.lang.System.out.println("delta: "+delta);

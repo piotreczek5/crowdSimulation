@@ -15,8 +15,8 @@ public class SimpleRenderer {
 	private int height;
 
 	public void addPoint(System s, int x, int y, int oX, int oY, float r,
-			float red, float green, float blue) {
-		Point p = new Point(x, y, oX, oY, r, red, green, blue);
+			float red, float green, float blue,double force) {
+		Point p = new Point(x, y, oX, oY, r, red, green, blue,force);
 		s.addPoint(p);
 	}
 
@@ -25,7 +25,7 @@ public class SimpleRenderer {
 		this.height = y;
 		try {
 			Display.setDisplayMode(new DisplayMode(x, y));
-			Display.setTitle("Hello fuckers");
+			Display.setTitle("Crowd Simulation");
 			Display.create();
 			Display.setVSyncEnabled(true);
 		} catch (LWJGLException e) {
@@ -35,23 +35,19 @@ public class SimpleRenderer {
 		Random r = new Random();
 
 		System s = new System(this.width, this.height - 2, 0.0f, 1.0f);
-		for (int i = 0; i <600; i++) {
+		for (int i = 0; i <800; i++) {
 
 			int xX = r.nextInt(this.width);
 			int yY = r.nextInt(this.height);
 			int oldX = xX;// + r.nextInt(1) ;
 			int oldY = yY;// + r.nextInt(2) + 1;
 
-			/*
-			 * while (!s.isOverlapping(xX, yY)) { xX = r.nextInt(this.width); yY
-			 * = r.nextInt(this.height); oldX = xX + r.nextInt(2) + 1; oldY = yY
-			 * + r.nextInt(2) + 1; }
-			 */
 			
 			
-			double size = r.nextGaussian()*1.2 +24;
+			
+			double size = r.nextGaussian()*1.2 +19;
 			addPoint(s, xX, yY, oldX, oldY, (float)size,//r.nextFloat() * 20 + 10,
-					1,1,1);//r.nextFloat(), r.nextFloat(), r.nextFloat());
+					1,i>400?0:1,1,i>400?-0.9:0.9);//r.nextFloat(), r.nextFloat(), r.nextFloat());
 
 		}
 
@@ -74,7 +70,7 @@ public class SimpleRenderer {
 				int oldY = yY;
 				double size = r.nextGaussian()*1.2 +14;
 				addPoint(s, xX, yY, oldX, oldY,(float)size,// r.nextFloat() * 20 + 10,
-						r.nextFloat(), r.nextFloat(), r.nextFloat());
+						r.nextFloat(), r.nextFloat(), r.nextFloat(),30);
 			}
 
 			if (Mouse.isButtonDown(1)) {
@@ -83,13 +79,13 @@ public class SimpleRenderer {
 					
 				int xX = Mouse.getX();
 				int yY = this.height - Mouse.getY();
-				s.applyDirerction(s.searchPoint(xX, yY+i));
+				s.applyDirerction(s.searchPoint(xX, yY+i),100);
 				}
 			}
 
 			// java.lang.System.out.println("Number of objects: " +
 			// s.getListOfPoints().size());
-			s.step(6);
+			s.step(10);
 
 			int xX = Mouse.getX();
 			int yY = this.height - Mouse.getY();
@@ -110,7 +106,7 @@ public class SimpleRenderer {
 			*/
 
 			Display.update();
-			Display.sync(90);
+			Display.sync(60);
 		}
 
 		Display.destroy();

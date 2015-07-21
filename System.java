@@ -56,7 +56,7 @@ public class System {
 					glColor3f(color,0 ,0);
 					
 					
-					Point.drawFilledCircle(Px, Py, 2*forceFactor);
+					Point.drawFilledCircle(Px, Py,7*forceFactor);
 					
 					//java.lang.System.out.println(maxHit);
 					double factor = 0.1 * (length - target) / length;
@@ -110,7 +110,14 @@ public class System {
 			p.setYa(p.getYa() + this.gravity);
 		}
 	}
-
+	
+	
+	public void appplyForces()
+	{
+		for (Point p : this.listOfPoints) {
+			p.setXa(p.getXa() + p.getForce());
+		}
+	}
 	public Point searchPoint(int x, int y) {
 		
 		for (Point p : this.listOfPoints) {
@@ -127,9 +134,9 @@ public class System {
 		return null;
 	}
 
-	public void applyDirerction(Point p) {
+	public void applyDirerction(Point p, double force) {
 		if (p != null)
-			p.setXa(p.getXa()+ 100);
+			p.setXa(p.getXa()+ force);
 	}
 
 	public void draw() {
@@ -156,6 +163,7 @@ public class System {
 		
 		for (int i = 0; i < steps; i++) {
 			this.applyGravity();
+			appplyForces();
 			this.accelerate(delta);
 			this.checkCollision();
 			this.checkCollisionOfBoundaries();
