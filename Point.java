@@ -19,7 +19,7 @@ public class Point {
 	private float green;
 	private float blue;
 	private double force;
-
+	private boolean destroy;
 	Point(double x, double y,double oldX, double oldY,float radius, float red, float blue,
 			float green,double force ) {
 		this.x = x;
@@ -33,14 +33,23 @@ public class Point {
 		this.blue = blue;
 		this.green = green;
 		this.force = force;
+		this.destroy = false;
 	}
 
 	public void draw() {
 
 		glColor3f(this.red, this.green, this.blue);
 		//this.DrawCircle(this.x, this.y, this.radius, 20);
-		this.drawFilledCircle(this.x, this.y, this.radius);
+		this.drawFilledCircle(this.x, this.y, this.radius,25);
 		
+	}
+
+	public boolean isDestroy() {
+		return destroy;
+	}
+
+	public void setDestroy(boolean destroy) {
+		this.destroy = destroy;
 	}
 
 	public void updatePosition(double delta)
@@ -74,19 +83,19 @@ public class Point {
 		this.ya = 0;
 	}
 	
-	static void drawFilledCircle(double x, double y, double radius){
+	static void drawFilledCircle(double x, double y, double radius, int segments){
 		int i;
-		int triangleAmount = 30; //# of triangles used to draw circle
+		
 		
 		//GLfloat radius = 0.8f; //radius
 		float twicePi = 2.0f * (float)Math.PI;
 		
 		glBegin(GL_TRIANGLE_FAN);
 			glVertex2f((float)x, (float)y); // center of circle
-			for(i = 0; i <= triangleAmount;i++) { 
+			for(i = 0; i <= segments;i++) { 
 				glVertex2f(
-						(float)x + ((float)radius * (float)Math.cos(i *  twicePi / triangleAmount)), 
-						(float)y + ((float)radius * (float)Math.sin(i * twicePi / triangleAmount))
+						(float)x + ((float)radius * (float)Math.cos(i *  twicePi / segments)), 
+						(float)y + ((float)radius * (float)Math.sin(i * twicePi / segments))
 				);
 			}
 		glEnd();

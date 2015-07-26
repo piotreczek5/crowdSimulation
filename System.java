@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.lwjgl.LWJGLException;
 
@@ -16,6 +17,7 @@ public class System {
 	private int height;
 	private float gravity;
 	private float friction;
+	private boolean destroying;
 	
 	public System(int width, int height, float gravity, float friction) {
 		this.listOfPoints = new ArrayList<Point>();
@@ -23,9 +25,40 @@ public class System {
 		this.height = height;
 		this.gravity = gravity;
 		this.friction = friction;
+		this.destroying = false;
 		
 	}
 
+	public boolean isDestroying() {
+		return destroying;
+	}
+
+	public void setDestroying(boolean destroying) {
+		this.destroying = destroying;
+	}
+
+	public void searchToDestroy()
+	{
+		
+		for(int i =0;i<this.listOfPoints.size();i++)
+			if(this.listOfPoints.get(i).isDestroy())
+			{
+				this.listOfPoints.remove(i);
+				Random r = new Random();
+				
+				int xX = r.nextInt(this.width);
+				int yY = r.nextInt(this.height);
+				int oldX = xX;// + r.nextInt(1) ;
+				int oldY = yY;// + r.nextInt(2) + 1;
+				double size = r.nextGaussian()*1.2 +19;
+				Point p = new Point(xX, yY, oldX, oldY, (float)size,//r.nextFloat() * 20 + 10,
+						1,r.nextBoolean()?0:1,1,r.nextBoolean()?-r.nextFloat()*2:r.nextFloat()*2);
+				this.addPoint(p);
+				
+			}
+		
+	}
+	
 	public void checkCollision() {
 		for (int i = 0; i < this.listOfPoints.size(); i++) {
 
@@ -52,14 +85,21 @@ public class System {
 					Py /= 2;
 					
 					double forceFactor = target - length;
+					
+					if(Math.abs(forceFactor / target)> 0.75){
+						this.listOfPoints.get(j).setDestroy(true);
+						this.listOfPoints.get(i).setDestroy(true);
+					}
+					
+					
 					float color = 1.0f-(1.0f/(float)forceFactor);
-					glColor3f(color,0 ,0);
+					glColor3f(1.0f,0 ,0);
 					
 					
-					Point.drawFilledCircle(Px, Py,7*forceFactor);
+					Point.drawFilledCircle(Px, Py,5*forceFactor,4);
 					
-					//java.lang.System.out.println(maxHit);
-					double factor = 0.1 * (length - target) / length;
+					//java.lang.System.out.println(forceFactor/target);
+					double factor = 0.3 * (length - target) / length;
 
 					this.listOfPoints.get(i).setX(
 							this.listOfPoints.get(i).getX() - x * factor);
@@ -72,10 +112,13 @@ public class System {
 							this.listOfPoints.get(j).getY() + y * factor);
 
 				}
+				
 
 			}
+			
 
 		}
+		searchToDestroy();
 	}
 
 	public ArrayList<Point> getListOfPoints() {
@@ -89,10 +132,14 @@ public class System {
 	public void checkCollisionOfBoundaries() {
 		for (Point p : this.listOfPoints) {
 
-			if (p.getX() - p.getRadius() < 0)
+			if (p.getX() - p.getRadius() < 0){
 				p.setX(p.getRadius());
-			else if (p.getX() + p.getRadius() > this.width)
+				//p.setDestroy(true);
+			}
+			else if (p.getX() + p.getRadius() > this.width){
 				p.setX(this.width - p.getRadius());
+				//p.setDestroy(true);
+			}
 
 			if (p.getY() + p.getRadius() > this.height)
 				p.setY(this.height - p.getRadius());
@@ -169,6 +216,8 @@ public class System {
 			this.checkCollisionOfBoundaries();
 			this.updatePosition(delta);
 		}
+		
+		
 		
 		this.draw();
 		
