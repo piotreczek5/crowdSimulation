@@ -45,14 +45,14 @@ public class System {
 			{
 				this.listOfPoints.remove(i);
 				Random r = new Random();
-				
+				java.lang.System.out.println("Destroying" + i);
 				int xX = r.nextInt(this.width);
 				int yY = r.nextInt(this.height);
 				int oldX = xX;// + r.nextInt(1) ;
 				int oldY = yY;// + r.nextInt(2) + 1;
 				double size = r.nextGaussian()*1.2 +19;
 				Point p = new Point(xX, yY, oldX, oldY, (float)size,//r.nextFloat() * 20 + 10,
-						1,r.nextBoolean()?0:1,1,r.nextBoolean()?-r.nextFloat()*2:r.nextFloat()*2);
+						1,r.nextBoolean()?0:1,1f,r.nextBoolean()?-r.nextFloat()*2:r.nextFloat()*2);
 				this.addPoint(p);
 				
 			}
@@ -85,10 +85,12 @@ public class System {
 					Py /= 2;
 					
 					double forceFactor = target - length;
+					//java.lang.System.out.format("Factor: %.3f \n",(forceFactor / target));
 					
-					if(Math.abs(forceFactor / target)> 0.75){
+					if(Math.abs(forceFactor / target)> 0.8 && this.isDestroying()){
 						this.listOfPoints.get(j).setDestroy(true);
 						this.listOfPoints.get(i).setDestroy(true);
+						//java.lang.System.out.println("Destroyed" + i + j);
 					}
 					
 					
@@ -116,9 +118,9 @@ public class System {
 
 			}
 			
-
+			searchToDestroy();
 		}
-		searchToDestroy();
+		
 	}
 
 	public ArrayList<Point> getListOfPoints() {

@@ -35,7 +35,7 @@ public class SimpleRenderer {
 		Random r = new Random();
 
 		System s = new System(this.width, this.height - 2, 0.0f, 1.0f);
-		for (int i = 0; i <850; i++) {
+		for (int i = 0; i <1200; i++) {
 
 			int xX = r.nextInt(this.width);
 			int yY = r.nextInt(this.height);
@@ -45,9 +45,9 @@ public class SimpleRenderer {
 			
 			
 			
-			double size = r.nextGaussian()*1.2 +19;
+			double size = r.nextGaussian()*1.2 +16;
 			addPoint(s, xX, yY, oldX, oldY, (float)size,//r.nextFloat() * 20 + 10,
-					1,i>400?0:1,1,i>425?-r.nextFloat()*2:r.nextFloat()*2);//r.nextFloat(), r.nextFloat(), r.nextFloat());
+					1,i>600?0:1,1,i>600?-0.9:0.9);//r.nextFloat(), r.nextFloat(), r.nextFloat());
 					
 			
 			//addPoint(s, xX, yY, oldX, oldY, (float)size,//r.nextFloat() * 20 + 10,
@@ -92,11 +92,10 @@ public class SimpleRenderer {
 				}
 			}
 
-			 java.lang.System.out.println("Number of objects: " +s.getListOfPoints().size() +" Destroying? "+ s.isDestroying());
+			 //java.lang.System.out.println("Number of objects: " +s.getListOfPoints().size() +" Destroying? "+ s.isDestroying());
 			s.step(3);
 
-			if(s.isDestroying())
-				s.searchToDestroy();
+			
 			int xX = Mouse.getX();
 			int yY = this.height - Mouse.getY();
 
@@ -111,7 +110,7 @@ public class SimpleRenderer {
 			
 
 			Display.update();
-			Display.sync(60);
+			Display.sync(30);
 		}
 
 		Display.destroy();
